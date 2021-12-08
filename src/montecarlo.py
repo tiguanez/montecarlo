@@ -1,31 +1,42 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-class Iteration:
-    def __init__(self, count, mu, sigma):
-        self.count = count
+
+class Simulation:
+    def __init__(self, mu, sigma):
         self.mu = mu
         self.sigma = sigma
 
-    def run(self, start):
-        generation = start
-        result = []
-        for x in range(self.count):
-            result.append(generation)
-            generation = generation * \
-                np.random.normal(loc=self.mu, scale=self.sigma)
-        return result
+    def run(self, start, simulations, iterations):
+        # Create an list that repeats element `start`, `simulations` times.
+        generation = [start] * simulations
+        # Add it as the first result
+        generations = [generation[:]]
+
+        # For each iteration
+        for _ in range(iterations):
+
+            # For each simulation
+            for index in range(simulations):
+                # Take a normal distributed sample
+                sample = np.random.normal(loc=self.mu, scale=self.sigma)
+                # Update the current generation with the sample
+                generation[index] = generation[index] * sample
+
+            # Append **a copy** of the generation to the result.
+            # `list[:]` makes a copy of `list`.
+            generations.append(generation[:])
+
+        # Return the generated generations
+        return generations
 
 
-def run_simulations(simulations):
-    result = []
-    for x in range(simulations):
-        iteration = Iteration(10, 1, 0.001)
-        result.append(iteration.run(1000))
-    return result
+simulation = Simulation(mu=1.00001, sigma=0.001)
+simulations = simulation.run(start=1000, simulations=10, iterations=100)
+for s in simulations:
+    print(s)
 
-
-simulations = run_simulations(10)
-print(simulations[0])
-plt.plot(simulations[0])
+delta = 50
+plt.ylim(1000-delta, 1000+delta)
+plt.plot(simulations, scaley=False)
 plt.show()
