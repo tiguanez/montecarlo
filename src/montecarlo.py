@@ -32,12 +32,14 @@ class Simulation:
         return generations
 
 
-simulation = Simulation(mu=1.00001, sigma=0.001)
-simulations = simulation.run(start=1000, simulations=100, iterations=1000)
+simulation = Simulation(mu=1.05, sigma=0.17)
+simulations = simulation.run(start=1000, simulations=10000, iterations=30)
 for s in simulations:
     print(s)
 
-delta = 80
-plt.ylim(1000-delta, 1000+delta)
+delta = 500
+# plt.ylim(1000-delta, 1000+delta)
+# plt.plot(simulations, scaley=False)
+
 plt.plot(simulations, scaley=False)
 plt.show()
