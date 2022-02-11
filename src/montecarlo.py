@@ -8,7 +8,7 @@ class Simulation:
         self.sigma = sigma
 
     def run(self, start, simulations, iterations):
-        # Create an list that repeats element `start`, `simulations` times.
+        # Create a list that repeats element `start`, `simulations` times.
         generation = [start] * simulations
         # Add it as the first result
         generations = [generation[:]]
